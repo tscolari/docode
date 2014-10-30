@@ -31,9 +31,10 @@ image_name: docode-base
 image_tag: latest
 ports:
   80: 80
+  22: 1022
 run_list:
-  -
-    tmux
+  - memcached -d
+  - tmux
 `
 
 	sampleDocodeFile =
@@ -53,12 +54,12 @@ run_list:
 
 		It("correctly maps `ports`", func() {
 			subject := docode.NewConfigurationFromFile(sampleDocodeFile)
-			Expect(subject.Ports).To(Equal(map[int]int{80: 80}))
+			Expect(subject.Ports).To(Equal(map[int]int{80: 80, 22: 1022}))
 		})
 
 		It("correctly maps `run_list`", func() {
 			subject := docode.NewConfigurationFromFile(sampleDocodeFile)
-			Expect(subject.RunList).To(Equal([]string{"tmux"}))
+			Expect(subject.RunList).To(Equal([]string{"memcached -d", "tmux"}))
 		})
 	})
 
