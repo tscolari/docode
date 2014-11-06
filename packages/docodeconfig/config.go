@@ -1,4 +1,4 @@
-package docode
+package docodeconfig
 
 import (
 	"gopkg.in/yaml.v2"
@@ -12,7 +12,7 @@ type configuration struct {
 	RunList   []string    `yaml:"run_list"`
 }
 
-func NewConfigurationFromFile(filename string) configuration {
+func NewFromFile(filename string) configuration {
 	contents, err := ioutil.ReadFile(filename)
 	if err != nil {
 		panic("Failed to open configuration file: " + filename)

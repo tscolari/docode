@@ -1,12 +1,12 @@
 package main
 
 import (
-	"./docode"
+	"./docodeconfig"
 
 	"fmt"
 )
 
 func main() {
-	config := docode.NewConfigurationFromFile("./DocodeFile")
+	config := docodeconfig.NewConfigurationFromFile("./DocodeFile")
 	fmt.Printf("--- config:\n%v\n\n", config)
 }

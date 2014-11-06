@@ -1,7 +1,7 @@
-package docode_test
+package docodeconfig_test
 
 import (
-	"../docode"
+	"../docodeconfig"
 	. "io/ioutil"
 
 	. "github.com/onsi/ginkgo"
@@ -40,25 +40,25 @@ run_list:
 	sampleDocodeFile =
 		writeTemporaryDocodeFile(yamlContents)
 
-	Describe("NewConfigurationFromFile", func() {
+	Describe(".NewFromFile", func() {
 
 		It("correctly maps the `image_name`", func() {
-			subject := docode.NewConfigurationFromFile(sampleDocodeFile)
+			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.ImageName).To(Equal("docode-base"))
 		})
 
 		It("correctly maps the `image_tag`", func() {
-			subject := docode.NewConfigurationFromFile(sampleDocodeFile)
+			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.ImageTag).To(Equal("latest"))
 		})
 
 		It("correctly maps `ports`", func() {
-			subject := docode.NewConfigurationFromFile(sampleDocodeFile)
+			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.Ports).To(Equal(map[int]int{80: 80, 22: 1022}))
 		})
 
 		It("correctly maps `run_list`", func() {
-			subject := docode.NewConfigurationFromFile(sampleDocodeFile)
+			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.RunList).To(Equal([]string{"memcached -d", "tmux"}))
 		})
 	})
