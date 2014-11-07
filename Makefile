@@ -1,5 +1,5 @@
 
-spec:
+test:
 	ginkgo -r
 
 get-deps:
