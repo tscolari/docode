@@ -20,21 +20,38 @@ func New(runner CommandRunner) DockerWrapper {
 }
 
 func (w wrapper) PullImage(image, tag string) error {
-	return w.runner.Run("pull " + image + ":" + tag)
+	return w.runner.Run("pull", []string{image + ":" + tag})
 }
 
 func (w wrapper) Run(runList []string, portMappings map[int]int, image, tag string) error {
 	dockerCommand := strings.Join(runList, "&&")
-	dockerParams := "--tty -i --rm -w /workdir --entrypoint /bin/sh"
-	ports := ""
+
+	args := append(w.defaultStaticParams(), w.portsMapToArgsParams(portMappings)...)
+	args = append(args, w.mountPointParams()...)
+	args = append(args, image+":"+tag, "-c", dockerCommand)
+
+	return w.runner.Run("run", args)
+}
+
+func (w wrapper) defaultStaticParams() []string {
+	return []string{"--tty", "-i", "--rm", "-w", "/workdir", "--entrypoint", "/bin/sh"}
+}
+
+func (w wrapper) portsMapToArgsParams(portMappings map[int]int) []string {
+	ports := []string{}
 
 	for hostPort, dockerPort := range portMappings {
-		ports = fmt.Sprintf("%s -p %d:%d", ports, hostPort, dockerPort)
+		ports = append(ports, []string{"-p", fmt.Sprintf("%d:%d", hostPort, dockerPort)}...)
 	}
 
-	workingDir, _ := filepath.Abs("")
-	mountPoint := fmt.Sprintf("-v %s:/workdir", workingDir)
+	return ports
+}
 
-	command := fmt.Sprintf("run %s%s %s %s:%s -c |%s", dockerParams, ports, mountPoint, image, tag, dockerCommand)
-	return w.runner.Run(command)
+func (w wrapper) mountPointParams() []string {
+	workingDir, _ := filepath.Abs("")
+
+	return []string{
+		"-v",
+		fmt.Sprintf("%s:/workdir", workingDir),
+	}
 }
