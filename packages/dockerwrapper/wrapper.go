@@ -15,8 +15,13 @@ type wrapper struct {
 	runner CommandRunner
 }
 
-func New(runner CommandRunner) DockerWrapper {
+func New() DockerWrapper {
+	runner := NewDockerRunner()
 	return wrapper{runner: runner}
+}
+
+func NewWithRunner(commandRunner CommandRunner) DockerWrapper {
+	return wrapper{runner: commandRunner}
 }
 
 func (w wrapper) PullImage(image, tag string) error {

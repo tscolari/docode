@@ -30,7 +30,7 @@ var _ = Describe("Wrapper", func() {
 
 	JustBeforeEach(func() {
 		commandRunner = NewFakerCommandRunner()
-		wrapper = dockerwrapper.New(commandRunner)
+		wrapper = dockerwrapper.NewWithRunner(commandRunner)
 	})
 
 	Describe(".PullImage", func() {
