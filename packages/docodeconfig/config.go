@@ -5,24 +5,24 @@ import (
 	"io/ioutil"
 )
 
-type configuration struct {
+type Configuration struct {
 	ImageName string      `yaml:"image_name"`
 	ImageTag  string      `yaml:"image_tag"`
 	Ports     map[int]int `yaml:"ports"`
 	RunList   []string    `yaml:"run_list"`
 }
 
-func NewFromFile(filename string) configuration {
+func NewFromFile(filename string) Configuration {
 	contents, err := ioutil.ReadFile(filename)
 	if err != nil {
 		panic("Failed to open configuration file: " + filename)
 	}
 
-	config := configuration{}
+	config := Configuration{}
 	config.loadString(contents)
 	return config
 }
 
-func (c *configuration) loadString(configContents []byte) {
+func (c *Configuration) loadString(configContents []byte) {
 	yaml.Unmarshal(configContents, &c)
 }
