@@ -1,7 +1,7 @@
-image_name: 'docode-base'
+image_name: 'busybox'
 image_tag: 'latest'
 ports:
   80: 80
-run:
-  -
-    tmux
+run_list:
+  - ls -lha
+  - sh

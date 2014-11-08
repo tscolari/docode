@@ -1,10 +1,14 @@
 package dockerwrapper
 
-import "strings"
+import (
+	"fmt"
+	"path/filepath"
+	"strings"
+)
 
 type DockerWrapper interface {
 	PullImage(image, tag string) error
-	Run(runList []string, image, tag string) error
+	Run(runList []string, portMappings map[int]int, image, tag string) error
 }
 
 type wrapper struct {
@@ -16,13 +20,21 @@ func New(runner CommandRunner) DockerWrapper {
 }
 
 func (w wrapper) PullImage(image, tag string) error {
-	_, err := w.runner.Run("pull " + image + ":" + tag)
-	return err
+	return w.runner.Run("pull " + image + ":" + tag)
 }
 
-func (w wrapper) Run(runList []string, image, tag string) error {
-	dockerCommand := strings.Join(runList, " && ")
-	command := "run --tty -i --rm " + image + ":" + tag + " '" + dockerCommand + "'"
-	_, err := w.runner.Run(command)
-	return err
+func (w wrapper) Run(runList []string, portMappings map[int]int, image, tag string) error {
+	dockerCommand := strings.Join(runList, "&&")
+	dockerParams := "--tty -i --rm -w /workdir --entrypoint /bin/sh"
+	ports := ""
+
+	for hostPort, dockerPort := range portMappings {
+		ports = fmt.Sprintf("%s -p %d:%d", ports, hostPort, dockerPort)
+	}
+
+	workingDir, _ := filepath.Abs("")
+	mountPoint := fmt.Sprintf("-v %s:/workdir", workingDir)
+
+	command := fmt.Sprintf("run %s%s %s %s:%s -c |%s", dockerParams, ports, mountPoint, image, tag, dockerCommand)
+	return w.runner.Run(command)
 }
