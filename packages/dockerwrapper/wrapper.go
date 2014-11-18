@@ -16,7 +16,7 @@ type wrapper struct {
 }
 
 func New() DockerWrapper {
-	runner := NewDockerRunner()
+	runner := dockerRunner{}
 	return wrapper{runner: runner}
 }
 
