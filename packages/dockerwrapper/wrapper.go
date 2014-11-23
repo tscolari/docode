@@ -16,7 +16,7 @@ type wrapper struct {
 }
 
 func New() DockerWrapper {
-	runner := dockerRunner{}
+	runner := runner{}
 	return wrapper{runner: runner}
 }
 
@@ -34,7 +34,7 @@ func (w wrapper) Run(runList []string, portMappings map[int]int, image, tag, ssh
 	args := append(w.defaultStaticParams(), w.portsMapToArgsParams(portMappings)...)
 	args = append(args, w.mountPointParams()...)
 	if len(sshKey) > 0 {
-		args = append(args, w.mountSshKey(sshKey)...)
+		args = append(args, w.mountSSHKey(sshKey)...)
 		dockerCommand = "eval `ssh-agent -s`&&ssh-add /ssh_key&&" + dockerCommand
 	}
 	args = append(args, image+":"+tag, "-c", dockerCommand)
@@ -46,7 +46,7 @@ func (w wrapper) defaultStaticParams() []string {
 	return []string{"--tty", "-i", "--rm", "-w", "/workdir", "--entrypoint", "/bin/sh"}
 }
 
-func (w wrapper) mountSshKey(sshKeyPath string) []string {
+func (w wrapper) mountSSHKey(sshKeyPath string) []string {
 	return []string{
 		"-v",
 		sshKeyPath + ":/ssh_key",

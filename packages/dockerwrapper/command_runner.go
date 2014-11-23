@@ -9,13 +9,13 @@ type CommandRunner interface {
 	Run(command string, args []string) error
 }
 
-type dockerRunner struct{}
+type runner struct{}
 
-func NewDockerRunner() dockerRunner {
-	return dockerRunner{}
+func NewDockerRunner() runner {
+	return runner{}
 }
 
-func (r dockerRunner) Run(command string, args []string) error {
+func (r runner) Run(command string, args []string) error {
 	commandArgs := append([]string{command}, args...)
 	cmd := exec.Command(r.prefix(), commandArgs...)
 
@@ -32,6 +32,6 @@ func (r dockerRunner) Run(command string, args []string) error {
 	return cmd.Wait()
 }
 
-func (r *dockerRunner) prefix() string {
+func (r *runner) prefix() string {
 	return "docker"
 }

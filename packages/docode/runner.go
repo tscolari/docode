@@ -5,8 +5,6 @@ import (
 	"github.com/tscolari/docode/packages/docodeconfig"
 )
 
-type DocodeRunner interface{}
-
 type Runner struct {
 	config docodeconfig.Configuration
 	docker dockerwrapper.DockerWrapper
@@ -37,6 +35,6 @@ func (r *Runner) Run() error {
 		r.config.Ports,
 		r.config.ImageName,
 		r.config.ImageTag,
-		r.config.SshKey,
+		r.config.SSHKey,
 	)
 }
