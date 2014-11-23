@@ -1,8 +1,9 @@
 package docodeconfig_test
 
 import (
-	"../docodeconfig"
 	. "io/ioutil"
+
+	"github.com/tscolari/docode/packages/docodeconfig"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

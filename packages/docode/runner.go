@@ -1,8 +1,8 @@
 package docode
 
 import (
-	"../dockerwrapper"
-	"../docodeconfig"
+	"github.com/tscolari/docode/packages/dockerwrapper"
+	"github.com/tscolari/docode/packages/docodeconfig"
 )
 
 type DocodeRunner interface{}

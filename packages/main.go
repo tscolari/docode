@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./docode"
-	"./docodeconfig"
+	"github.com/tscolari/docode/packages/docode"
+	"github.com/tscolari/docode/packages/docodeconfig"
 
 	"fmt"
 )

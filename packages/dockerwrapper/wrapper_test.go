@@ -1,9 +1,10 @@
 package dockerwrapper_test
 
 import (
-	"../dockerwrapper"
 	"fmt"
 	"path/filepath"
+
+	"github.com/tscolari/docode/packages/dockerwrapper"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
