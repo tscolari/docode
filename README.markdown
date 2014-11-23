@@ -13,6 +13,7 @@ In this scenario, each project would have their own `Docodefile` which contains 
 ``` yaml
 image_name: 'my_project_docker_image'
 image_tag: 'latest'
+ssh_key: '/home/me/.ssh/my_key'
 ports:
   80: 8080
   443: 4443
@@ -25,13 +26,14 @@ Running `docode` in this project folder will:
 - load up that file
 - fire docker with that image
 - map the ports
+- mount the ssh_key inside the docker container, and add it with `ssh-add`
 - execute the run list, in the end opening tmux for the developer.
 
 It also mounts the current folder as the  workdir inside the running container.
 
 ## TODO
 
-* Import SSH key
+* <strike>Import SSH key</strike>
 * Custom ENV sets
 * Custom extra mount points
 * Forwarding Host ENV option
