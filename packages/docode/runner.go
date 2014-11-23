@@ -37,5 +37,6 @@ func (r *Runner) Run() error {
 		r.config.Ports,
 		r.config.ImageName,
 		r.config.ImageTag,
+		r.config.SshKey,
 	)
 }

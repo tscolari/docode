@@ -1,7 +1,8 @@
-image_name: 'busybox'
+image_name: 'docode_base'
 image_tag: 'latest'
+ssh_key: '/Users/tscolari/.ssh/id_rsa'
 ports:
   80: 80
 run_list:
   - ls -lha
-  - sh
+  - /bin/bash

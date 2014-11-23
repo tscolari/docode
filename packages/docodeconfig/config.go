@@ -10,6 +10,7 @@ type Configuration struct {
 	ImageTag  string      `yaml:"image_tag"`
 	Ports     map[int]int `yaml:"ports"`
 	RunList   []string    `yaml:"run_list"`
+	SshKey    string      `yaml:"ssh_key"`
 }
 
 func NewFromFile(filename string) Configuration {

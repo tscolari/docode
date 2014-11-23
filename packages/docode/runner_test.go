@@ -21,7 +21,7 @@ func (w *fakeDockerWrapper) PullImage(image, tag string) error {
 	return nil
 }
 
-func (w *fakeDockerWrapper) Run(runList []string, portMappings map[int]int, image, tag string) error {
+func (w *fakeDockerWrapper) Run(runList []string, portMappings map[int]int, image, tag, sshKey string) error {
 	w.image = image
 	w.tag = tag
 	w.runList = runList
