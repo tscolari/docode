@@ -11,6 +11,7 @@ type Configuration struct {
 	Ports     map[int]int `yaml:"ports"`
 	RunList   []string    `yaml:"run_list"`
 	SSHKey    string      `yaml:"ssh_key"`
+	DontPull  bool        `yaml:"dont_pull"`
 }
 
 func NewFromFile(filename string) Configuration {

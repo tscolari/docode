@@ -30,6 +30,8 @@ var _ = Describe("Config", func() {
 	yamlContents := `
 image_name: docode-base
 image_tag: latest
+dont_pull: true
+ssh_key: /some_key
 ports:
   80: 80
   22: 1022
@@ -42,25 +44,34 @@ run_list:
 		writeTemporaryDocodeFile(yamlContents)
 
 	Describe(".NewFromFile", func() {
+		var subject docodeconfig.Configuration
+
+		JustBeforeEach(func() {
+			subject = docodeconfig.NewFromFile(sampleDocodeFile)
+		})
 
 		It("correctly maps the `image_name`", func() {
-			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.ImageName).To(Equal("docode-base"))
 		})
 
 		It("correctly maps the `image_tag`", func() {
-			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.ImageTag).To(Equal("latest"))
 		})
 
 		It("correctly maps `ports`", func() {
-			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.Ports).To(Equal(map[int]int{80: 80, 22: 1022}))
 		})
 
 		It("correctly maps `run_list`", func() {
-			subject := docodeconfig.NewFromFile(sampleDocodeFile)
 			Expect(subject.RunList).To(Equal([]string{"memcached -d", "tmux"}))
+		})
+
+		It("correctly maps `ssh_key`", func() {
+			Expect(subject.SSHKey).To(Equal("/some_key"))
+		})
+
+		It("correctly maps `dont_pull`", func() {
+			Expect(subject.DontPull).To(Equal(true))
 		})
 	})
 

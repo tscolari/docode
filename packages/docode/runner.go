@@ -25,9 +25,11 @@ func New(config docodeconfig.Configuration) *Runner {
 }
 
 func (r *Runner) Run() error {
-	err := r.docker.PullImage(r.config.ImageName, r.config.ImageTag)
-	if err != nil {
-		return err
+	if !r.config.DontPull {
+		err := r.docker.PullImage(r.config.ImageName, r.config.ImageTag)
+		if err != nil {
+			return err
+		}
 	}
 
 	return r.docker.Run(

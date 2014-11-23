@@ -1,5 +1,6 @@
 image_name: 'docode_base'
 image_tag: 'latest'
+dont_pull: true
 ssh_key: '/Users/tscolari/.ssh/id_rsa'
 ports:
   80: 80

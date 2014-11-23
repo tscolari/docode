@@ -11,6 +11,7 @@ import (
 type fakeDockerWrapper struct {
 	image        string
 	tag          string
+	pulled       bool
 	runList      []string
 	portMappings map[int]int
 }
@@ -18,6 +19,7 @@ type fakeDockerWrapper struct {
 func (w *fakeDockerWrapper) PullImage(image, tag string) error {
 	w.image = image
 	w.tag = tag
+	w.pulled = true
 	return nil
 }
 
@@ -53,6 +55,19 @@ var _ = Describe("runner", func() {
 			Expect(wrapper.tag).To(Equal("oldone"))
 			Expect(wrapper.runList).To(Equal([]string{"ls", "cd tmp"}))
 			Expect(wrapper.portMappings).To(Equal(map[int]int{2222: 1111}))
+		})
+
+		It("pulls the image if dont_pull is not present", func() {
+			runner.Run()
+			Expect(wrapper.pulled).To(Equal(true))
+		})
+
+		It("doesn't pull the image if dont_pull is true", func() {
+			config.DontPull = true
+			runner = NewWithWrapper(config, wrapper)
+			runner.Run()
+
+			Expect(wrapper.pulled).To(Equal(false))
 		})
 	})
 })
