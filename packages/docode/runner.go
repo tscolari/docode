@@ -38,5 +38,6 @@ func (r *Runner) Run() error {
 		r.config.ImageName,
 		r.config.ImageTag,
 		r.config.SSHKey,
+		r.config.EnvSets,
 	)
 }

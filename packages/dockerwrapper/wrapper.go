@@ -8,7 +8,7 @@ import (
 
 type DockerWrapper interface {
 	PullImage(image, tag string) error
-	Run(runList []string, portMappings map[int]int, image, tag, sshKey string) error
+	Run(runList []string, portMappings map[int]int, image, tag, sshKey string, envSets map[string]string) error
 }
 
 type wrapper struct {
@@ -28,22 +28,34 @@ func (w wrapper) PullImage(image, tag string) error {
 	return w.runner.Run("pull", []string{image + ":" + tag})
 }
 
-func (w wrapper) Run(runList []string, portMappings map[int]int, image, tag, sshKey string) error {
+func (w wrapper) Run(runList []string, portMappings map[int]int, image, tag, sshKey string, envSets map[string]string) error {
 	dockerCommand := strings.Join(runList, "&&")
 
 	args := append(w.defaultStaticParams(), w.portsMapToArgsParams(portMappings)...)
 	args = append(args, w.mountPointParams()...)
+	args = append(args, w.environmentMappings(envSets)...)
+
 	if len(sshKey) > 0 {
 		args = append(args, w.mountSSHKey(sshKey)...)
 		dockerCommand = "eval `ssh-agent -s`&&ssh-add /ssh_key&&" + dockerCommand
 	}
-	args = append(args, image+":"+tag, "-c", dockerCommand)
 
+	args = append(args, image+":"+tag, "-c", dockerCommand)
 	return w.runner.Run("run", args)
 }
 
 func (w wrapper) defaultStaticParams() []string {
 	return []string{"--tty", "-i", "--rm", "-w", "/workdir", "--entrypoint", "/bin/sh"}
+}
+
+func (w wrapper) environmentMappings(envSets map[string]string) []string {
+	mappings := []string{}
+
+	for key, value := range envSets {
+		mappings = append(mappings, "-e", key+"="+value)
+	}
+
+	return mappings
 }
 
 func (w wrapper) mountSSHKey(sshKeyPath string) []string {

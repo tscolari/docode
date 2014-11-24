@@ -6,12 +6,13 @@ import (
 )
 
 type Configuration struct {
-	ImageName string      `yaml:"image_name"`
-	ImageTag  string      `yaml:"image_tag"`
-	Ports     map[int]int `yaml:"ports"`
-	RunList   []string    `yaml:"run_list"`
-	SSHKey    string      `yaml:"ssh_key"`
-	DontPull  bool        `yaml:"dont_pull"`
+	ImageName string            `yaml:"image_name"`
+	ImageTag  string            `yaml:"image_tag"`
+	Ports     map[int]int       `yaml:"ports"`
+	RunList   []string          `yaml:"run_list"`
+	SSHKey    string            `yaml:"ssh_key"`
+	DontPull  bool              `yaml:"dont_pull"`
+	EnvSets   map[string]string `yaml:"env"`
 }
 
 func NewFromFile(filename string) Configuration {

@@ -45,7 +45,7 @@ var _ = Describe("Wrapper", func() {
 	Describe(".Run", func() {
 		Context("When all arguments are supplied", func() {
 			It("sends the correct parameters to command runner", func() {
-				wrapper.Run([]string{"bundle install", "tmux"}, map[int]int{22: 2022, 80: 8080}, "busybox", "latest", "my_ssh_key")
+				wrapper.Run([]string{"bundle install", "tmux"}, map[int]int{22: 2022, 80: 8080}, "busybox", "latest", "my_ssh_key", map[string]string{"HELLO": "world"})
 				Ω(commandRunner.receivedCommand).To(Equal("run"))
 
 				workingFolder, _ := filepath.Abs("")
@@ -63,6 +63,8 @@ var _ = Describe("Wrapper", func() {
 					"80:8080",
 					"-v",
 					fmt.Sprintf("%s:/workdir", workingFolder),
+					"-e",
+					"HELLO=world",
 					"-v",
 					"my_ssh_key:/ssh_key",
 					"busybox:latest",
@@ -75,7 +77,7 @@ var _ = Describe("Wrapper", func() {
 
 		Context("When no ssh-key is given", func() {
 			It("should not mount anything to ssh_key nor add ssh-add on it", func() {
-				wrapper.Run([]string{"tmux"}, map[int]int{}, "busybox", "latest", "")
+				wrapper.Run([]string{"tmux"}, map[int]int{}, "busybox", "latest", "", nil)
 				Ω(commandRunner.receivedCommand).To(Equal("run"))
 
 				workingFolder, _ := filepath.Abs("")

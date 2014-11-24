@@ -14,6 +14,7 @@ type fakeDockerWrapper struct {
 	pulled       bool
 	runList      []string
 	portMappings map[int]int
+	envSets      map[string]string
 }
 
 func (w *fakeDockerWrapper) PullImage(image, tag string) error {
@@ -23,11 +24,12 @@ func (w *fakeDockerWrapper) PullImage(image, tag string) error {
 	return nil
 }
 
-func (w *fakeDockerWrapper) Run(runList []string, portMappings map[int]int, image, tag, sshKey string) error {
+func (w *fakeDockerWrapper) Run(runList []string, portMappings map[int]int, image, tag, sshKey string, envSets map[string]string) error {
 	w.image = image
 	w.tag = tag
 	w.runList = runList
 	w.portMappings = portMappings
+	w.envSets = envSets
 	return nil
 }
 
@@ -44,17 +46,35 @@ var _ = Describe("runner", func() {
 				ImageTag:  "oldone",
 				RunList:   []string{"ls", "cd tmp"},
 				Ports:     map[int]int{2222: 1111},
+				EnvSets:   map[string]string{"HELLO": "world"},
 			}
 
 			runner = NewWithWrapper(config, wrapper)
 		})
 
-		It("sends commands to the docker wrapper", func() {
+		It("sets correctly the docker image", func() {
 			runner.Run()
 			Expect(wrapper.image).To(Equal("busybox"))
+		})
+
+		It("sets correctly the docker tag", func() {
+			runner.Run()
 			Expect(wrapper.tag).To(Equal("oldone"))
+		})
+
+		It("sets correctly the runList", func() {
+			runner.Run()
 			Expect(wrapper.runList).To(Equal([]string{"ls", "cd tmp"}))
+		})
+
+		It("sets correctly the port mappings", func() {
+			runner.Run()
 			Expect(wrapper.portMappings).To(Equal(map[int]int{2222: 1111}))
+		})
+
+		It("sets correctly the envs", func() {
+			runner.Run()
+			Expect(wrapper.envSets).To(Equal(map[string]string{"HELLO": "world"}))
 		})
 
 		It("pulls the image if dont_pull is not present", func() {
