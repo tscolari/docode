@@ -34,8 +34,10 @@ It also mounts the current folder as the  workdir inside the running container.
 ## TODO
 
 * <strike>Import SSH key</strike>
-* Custom ENV sets
+* <strike>Custom ENV sets</strike>
 * Custom extra mount points
 * Forwarding Host ENV option
 * Command line options:
   * set target docodefile
+  * set ssh-key
+* better docs
