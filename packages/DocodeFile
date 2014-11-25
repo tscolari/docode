@@ -4,6 +4,12 @@ dont_pull: true
 ssh_key: '/Users/tscolari/.ssh/id_rsa'
 ports:
   80: 80
+env:
+  JAVA_HOME: /tmp
+  hello: hello there
+  GOPATH: /workdir
+mount:
+  /tmp: /tmp
 run_list:
   - ls -lha
   - /bin/bash
