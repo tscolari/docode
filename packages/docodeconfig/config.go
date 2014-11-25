@@ -13,6 +13,7 @@ type Configuration struct {
 	SSHKey    string            `yaml:"ssh_key"`
 	DontPull  bool              `yaml:"dont_pull"`
 	EnvSets   map[string]string `yaml:"env"`
+	MountSets map[string]string `yaml:"mount"`
 }
 
 func NewFromFile(filename string) Configuration {

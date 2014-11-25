@@ -15,6 +15,7 @@ type fakeDockerWrapper struct {
 	runList      []string
 	portMappings map[int]int
 	envSets      map[string]string
+	mountSets    map[string]string
 }
 
 func (w *fakeDockerWrapper) PullImage(image, tag string) error {
@@ -24,12 +25,13 @@ func (w *fakeDockerWrapper) PullImage(image, tag string) error {
 	return nil
 }
 
-func (w *fakeDockerWrapper) Run(runList []string, portMappings map[int]int, image, tag, sshKey string, envSets map[string]string) error {
+func (w *fakeDockerWrapper) Run(runList []string, portMappings map[int]int, image, tag, sshKey string, envSets, mountSets map[string]string) error {
 	w.image = image
 	w.tag = tag
 	w.runList = runList
 	w.portMappings = portMappings
 	w.envSets = envSets
+	w.mountSets = mountSets
 	return nil
 }
 
@@ -48,6 +50,7 @@ var _ = Describe("runner", func() {
 				RunList:   []string{"ls", "cd tmp"},
 				Ports:     map[int]int{2222: 1111},
 				EnvSets:   map[string]string{"HELLO": "world"},
+				MountSets: map[string]string{"/home": "/other_home", "/tmp": "/trash"},
 			}
 
 			runner = NewWithWrapper(config, wrapper)
@@ -81,6 +84,11 @@ var _ = Describe("runner", func() {
 		It("doesn't pull the image if dont_pull is true", func() {
 			runner.Run()
 			Expect(wrapper.pulled).To(Equal(false))
+		})
+
+		It("sets correctly the mountings", func() {
+			runner.Run()
+			Expect(wrapper.mountSets).To(Equal(map[string]string{"/home": "/other_home", "/tmp": "/trash"}))
 		})
 
 		Context("when dont_pull is not set or not present", func() {
