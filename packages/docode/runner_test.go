@@ -44,6 +44,7 @@ var _ = Describe("runner", func() {
 			config = docodeconfig.Configuration{
 				ImageName: "busybox",
 				ImageTag:  "oldone",
+				DontPull:  true,
 				RunList:   []string{"ls", "cd tmp"},
 				Ports:     map[int]int{2222: 1111},
 				EnvSets:   map[string]string{"HELLO": "world"},
@@ -77,17 +78,18 @@ var _ = Describe("runner", func() {
 			Expect(wrapper.envSets).To(Equal(map[string]string{"HELLO": "world"}))
 		})
 
-		It("pulls the image if dont_pull is not present", func() {
+		It("doesn't pull the image if dont_pull is true", func() {
 			runner.Run()
-			Expect(wrapper.pulled).To(Equal(true))
+			Expect(wrapper.pulled).To(Equal(false))
 		})
 
-		It("doesn't pull the image if dont_pull is true", func() {
-			config.DontPull = true
-			runner = NewWithWrapper(config, wrapper)
-			runner.Run()
-
-			Expect(wrapper.pulled).To(Equal(false))
+		Context("when dont_pull is not set or not present", func() {
+			It("pulls the image if dont_pull false", func() {
+				config.DontPull = false
+				runner = NewWithWrapper(config, wrapper)
+				runner.Run()
+				Expect(wrapper.pulled).To(Equal(true))
+			})
 		})
 	})
 })
