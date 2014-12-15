@@ -75,4 +75,51 @@ run_list:
 		})
 	})
 
+	Describe("MergeConfigurations", func() {
+		var configA docodeconfig.ArgsConfiguration
+		var configB docodeconfig.Configuration
+		var mergedConfig docodeconfig.Configuration
+
+		BeforeEach(func() {
+			imageName := "imageA"
+			SSHKey := "/id_rsa"
+			configA = docodeconfig.ArgsConfiguration{
+				ImageName: &imageName,
+				SSHKey:    &SSHKey,
+				Ports: &map[int]int{
+					80: 80,
+				},
+			}
+
+			configB = docodeconfig.Configuration{
+				ImageName: "imageB",
+				ImageTag:  "tagB",
+				Ports:     map[int]int{80: 90, 100: 100},
+				EnvSets:   map[string]string{"HOME": "/me"},
+				MountSets: map[string]string{"/tmp": "/tmpb"},
+				DontPull:  true,
+			}
+		})
+
+		JustBeforeEach(func() {
+			mergedConfig = docodeconfig.MergeConfigurations(configA, configB)
+		})
+
+		Context("precedence", func() {
+			It("gives preference to configA", func() {
+				Expect(mergedConfig.ImageName).To(Equal("imageA"))
+				Expect(mergedConfig.SSHKey).To(Equal("/id_rsa"))
+				Expect(mergedConfig.Ports).To(Equal(map[int]int{80: 80}))
+			})
+		})
+
+		Context("Missing keys", func() {
+			It("uses configB values", func() {
+				Expect(mergedConfig.ImageTag).To(Equal("tagB"))
+				Expect(mergedConfig.EnvSets).To(Equal(map[string]string{"HOME": "/me"}))
+				Expect(mergedConfig.MountSets).To(Equal(map[string]string{"/tmp": "/tmpb"}))
+				Expect(mergedConfig.DontPull).To(Equal(true))
+			})
+		})
+	})
 })
