@@ -1,4 +1,4 @@
-package dockerwrapper
+package runtime
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-type DockerWrapper interface {
+type Wrapper interface {
 	PullImage(image, tag string) error
 	Run(runList []string, portMappings map[int]int, image, tag, sshKey string, envSets, mountSets map[string]string) error
 }
@@ -15,12 +15,12 @@ type wrapper struct {
 	runner CommandRunner
 }
 
-func New() DockerWrapper {
+func New() Wrapper {
 	runner := runner{}
 	return wrapper{runner: runner}
 }
 
-func NewWithRunner(commandRunner CommandRunner) DockerWrapper {
+func NewWithRunner(commandRunner CommandRunner) Wrapper {
 	return wrapper{runner: commandRunner}
 }
 

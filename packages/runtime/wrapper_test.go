@@ -1,10 +1,10 @@
-package dockerwrapper_test
+package runtime_test
 
 import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/tscolari/docode/packages/dockerwrapper"
+	"github.com/tscolari/docode/packages/runtime"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -26,12 +26,12 @@ func (r *fakeCommandRunner) Run(command string, args []string) error {
 }
 
 var _ = Describe("Wrapper", func() {
-	var wrapper dockerwrapper.DockerWrapper
+	var wrapper runtime.Wrapper
 	var commandRunner *fakeCommandRunner
 
 	JustBeforeEach(func() {
 		commandRunner = NewFakerCommandRunner()
-		wrapper = dockerwrapper.NewWithRunner(commandRunner)
+		wrapper = runtime.NewWithRunner(commandRunner)
 	})
 
 	Describe(".PullImage", func() {
@@ -45,7 +45,7 @@ var _ = Describe("Wrapper", func() {
 	Describe(".Run", func() {
 		Context("When all arguments are supplied", func() {
 			It("sends the correct parameters to command runner", func() {
-				wrapper.Run([]string{"bundle install", "tmux"}, map[int]int{22: 2022, 80: 8080}, "busybox", "latest", "my_ssh_key", map[string]string{"HELLO": "world"}, map[string]string{"/outside":"/inside"})
+				wrapper.Run([]string{"bundle install", "tmux"}, map[int]int{22: 2022, 80: 8080}, "busybox", "latest", "my_ssh_key", map[string]string{"HELLO": "world"}, map[string]string{"/outside": "/inside"})
 				Ω(commandRunner.receivedCommand).To(Equal("run"))
 
 				workingFolder, _ := filepath.Abs("")

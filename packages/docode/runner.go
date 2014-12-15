@@ -1,16 +1,16 @@
 package docode
 
 import (
-	"github.com/tscolari/docode/packages/dockerwrapper"
 	"github.com/tscolari/docode/packages/docodeconfig"
+	"github.com/tscolari/docode/packages/runtime"
 )
 
 type Runner struct {
 	config docodeconfig.Configuration
-	docker dockerwrapper.DockerWrapper
+	docker runtime.Wrapper
 }
 
-func NewWithWrapper(config docodeconfig.Configuration, docker dockerwrapper.DockerWrapper) *Runner {
+func NewWithWrapper(config docodeconfig.Configuration, docker runtime.Wrapper) *Runner {
 	return &Runner{
 		config: config,
 		docker: docker,
@@ -20,7 +20,7 @@ func NewWithWrapper(config docodeconfig.Configuration, docker dockerwrapper.Dock
 func New(config docodeconfig.Configuration) *Runner {
 	return &Runner{
 		config: config,
-		docker: dockerwrapper.New(),
+		docker: runtime.New(),
 	}
 }
 

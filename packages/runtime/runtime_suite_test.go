@@ -1,4 +1,4 @@
-package dockerwrapper_test
+package runtime_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestDockerwrapper(t *testing.T) {
+func TestRuntime(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Dockerwrapper Suite")
+	RunSpecs(t, "Runtime Suite")
 }
