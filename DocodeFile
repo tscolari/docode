@@ -1,0 +1,4 @@
+image_name: tscolari/docode
+image_tag: latest
+run_list:
+  - tmux new-session -s DOCODE /bin/bash
