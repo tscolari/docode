@@ -1,19 +1,25 @@
 # DOCODE
 
-Projects onboarding tool using [docker](http://www.docker.io)
+Projects dependency management tool
 
 ## HOW IT WORKS
 
-Instead of polluting your machine with different dependencies for different projects, `docode` allows each project to have their dependencies in isolation.
+You shouldn't need to worry with libraries and versions every time you start
+working on a new project. Keeping them from conflicting from the ones from
+another project you are working on, or the one you are going to start next week.
 
-Imagine checking out a project you never worked before and being able to run it with only one command, without worring about conflicts with our local environment.
+`Docode` is a simple solution for project dependency management, it wraps docker
+and keep the project dependencies in a docker image.
 
-In this scenario, each project would have their own `Docodefile` which contains instructions for setting up the development enviroment. For example:
+It uses a `DocodeFile` to describe the project world, that gets automatically
+loaded when you run `docode` in a folder.
+
+For example:
 
 ``` yaml
-image_name: 'my_project_docker_image'
-image_tag: 'latest'
-ssh_key: '/home/me/.ssh/my_key'
+image_name: my_project_docker_image
+image_tag: latest
+ssh_key: /home/me/.ssh/my_key
 ports:
   80: 8080
   443: 4443
@@ -23,13 +29,13 @@ run_list:
 ```
 
 Running `docode` in this project folder will:
-- load up that file
-- fire docker with that image
-- map the ports
-- mount the ssh_key inside the docker container, and add it with `ssh-add`
-- execute the run list, in the end opening tmux for the developer.
+- start docker with the `my_project_docker_image:latest` image, which should ideally have the project dependencies already installed.
+- map the ports from the container to the host, so you can access through a browser for example.
+- load the ssh_key inside the docker container.
+- execute the run list, in this case the developer.
 
-It also mounts the current folder as the  workdir inside the running container.
+It also mounts the current folder (the project folder) as the /workdir inside the running container,
+allowing that external and internal tools to have access to the folder.
 
 ## TODO
 
@@ -40,4 +46,9 @@ It also mounts the current folder as the  workdir inside the running container.
 * Command line options:
   * set target docodefile
   * set ssh-key
+* Support to Rocket
 * better docs
+
+## License
+
+Docode is released under the MIT License.
