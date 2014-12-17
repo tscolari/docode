@@ -6,6 +6,7 @@ RUN apt-get update && \
     apt-get install -y --force-yes \
                          tmux \
                          ssh \
+                         vim \
                          git-core \
                          make && \
     apt-get clean -y && \
