@@ -1,6 +1,6 @@
 # DOCODE
 
-Projects dependency management tool
+Project dependency management tool
 
 ## HOW IT WORKS
 
@@ -35,7 +35,7 @@ Running `docode` in this project folder will:
 - execute the run list, in this case the developer.
 
 It also mounts the current folder (the project folder) as the /workdir inside the running container,
-allowing that external and internal tools to have access to the folder.
+allowing external and internal tools to have access to the folder.
 
 ## TODO
 
