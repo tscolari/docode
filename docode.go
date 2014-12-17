@@ -4,14 +4,17 @@ import (
 	"github.com/tscolari/docode/packages/docode"
 	"github.com/tscolari/docode/packages/docodeconfig"
 
-	"fmt"
+	"flag"
 )
 
 func main() {
-	config := docodeconfig.NewFromFile("./DocodeFile")
-	runner := docode.New(config)
+	docodeFilePath := flag.String("config", "./DocodeFile", "ConfigFile to load")
+	flag.Parse()
+
+	fileConfig := docodeconfig.NewFromFile(*docodeFilePath)
+	runner := docode.New(fileConfig)
 	err := runner.Run()
 	if err != nil {
-		fmt.Printf("ERROR: %s\n", err.Error())
+		panic("ERROR: " + err.Error())
 	}
 }

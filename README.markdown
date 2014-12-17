@@ -44,7 +44,7 @@ allowing external and internal tools to have access to the folder.
 * <strike>Custom extra mount points</strike>
 * Forwarding Host ENV option
 * Command line options:
-  * set target docodefile
+  * <strike>set target docodefile</strike>
   * set ssh-key
 * Support to Rocket
 * better docs
