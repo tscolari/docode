@@ -83,8 +83,10 @@ run_list:
 		BeforeEach(func() {
 			imageName := "imageA"
 			SSHKey := "/id_rsa"
+			imageTag := ""
 			configA = docodeconfig.ArgsConfiguration{
 				ImageName: &imageName,
+				ImageTag:  &imageTag,
 				SSHKey:    &SSHKey,
 				Ports: &map[int]int{
 					80: 80,

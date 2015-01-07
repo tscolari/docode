@@ -31,19 +31,19 @@ func NewFromFile(filename string) Configuration {
 func MergeConfigurations(mainConfig ArgsConfiguration, secondaryConfig Configuration) Configuration {
 	config := Configuration{}
 
-	if mainConfig.ImageName == nil {
+	if mainConfig.ImageName == nil || *mainConfig.ImageName == "" {
 		config.ImageName = secondaryConfig.ImageName
 	} else {
 		config.ImageName = *mainConfig.ImageName
 	}
 
-	if mainConfig.ImageTag == nil {
+	if mainConfig.ImageTag == nil || *mainConfig.ImageTag == "" {
 		config.ImageTag = secondaryConfig.ImageTag
 	} else {
 		config.ImageTag = *mainConfig.ImageTag
 	}
 
-	if mainConfig.SSHKey == nil {
+	if mainConfig.SSHKey == nil || *mainConfig.SSHKey == "" {
 		config.SSHKey = secondaryConfig.SSHKey
 	} else {
 		config.SSHKey = *mainConfig.SSHKey
