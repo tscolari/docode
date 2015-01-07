@@ -37,17 +37,12 @@ Running `docode` in this project folder will:
 It also mounts the current folder (the project folder) as the /workdir inside the running container,
 allowing external and internal tools to have access to the folder.
 
-## TODO
+## COMMAND LINE OPTIONS
 
-* <strike>Import SSH key</strike>
-* <strike>Custom ENV sets</strike>
-* <strike>Custom extra mount points</strike>
-* Forwarding Host ENV option
-* Command line options:
-  * <strike>set target docodefile</strike>
-  * set ssh-key
-* Support to Rocket
-* better docs
+* `-k <ssh-key path>` will override/use the given ssh-key.
+* `-n` will skip the image pull step (use the local one)
+* `-t <image tag>` will override the image tag given
+* `-i <image name>` will override the image given
 
 ## License
 
