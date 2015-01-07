@@ -73,7 +73,7 @@ func MergeConfigurations(mainConfig ArgsConfiguration, secondaryConfig Configura
 		config.MountSets = *mainConfig.MountSets
 	}
 
-	if mainConfig.DontPull == nil {
+	if mainConfig.DontPull == nil || !*mainConfig.DontPull {
 		config.DontPull = secondaryConfig.DontPull
 	} else {
 		config.DontPull = *mainConfig.DontPull
