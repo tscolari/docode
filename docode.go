@@ -24,7 +24,11 @@ func main() {
 
 func fetchConfigFromArgs() docodeconfig.ArgsConfiguration {
 	argsConfig := docodeconfig.ArgsConfiguration{}
+
 	argsConfig.SSHKey = flag.String("k", "", "Ssh key path to use")
+	argsConfig.ImageName = flag.String("i", "", "Image name to use")
+	argsConfig.ImageTag = flag.String("t", "", "Image tag to use")
+	argsConfig.DontPull = flag.Bool("n", false, "Skip pulling the image")
 
 	return argsConfig
 }
