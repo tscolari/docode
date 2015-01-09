@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/tscolari/docode/packages/runtime"
+	"github.com/tscolari/docode/runtime"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

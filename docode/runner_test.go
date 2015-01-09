@@ -1,8 +1,8 @@
 package docode_test
 
 import (
-	"github.com/tscolari/docode/packages/config"
-	. "github.com/tscolari/docode/packages/docode"
+	"github.com/tscolari/docode/config"
+	. "github.com/tscolari/docode/docode"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

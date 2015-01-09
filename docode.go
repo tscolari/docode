@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/tscolari/docode/packages/config"
-	"github.com/tscolari/docode/packages/docode"
+	"github.com/tscolari/docode/config"
+	"github.com/tscolari/docode/docode"
 
 	"flag"
 )

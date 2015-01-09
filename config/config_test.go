@@ -3,7 +3,7 @@ package config_test
 import (
 	. "io/ioutil"
 
-	"github.com/tscolari/docode/packages/config"
+	"github.com/tscolari/docode/config"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

@@ -1,8 +1,8 @@
 package docode
 
 import (
-	"github.com/tscolari/docode/packages/config"
-	"github.com/tscolari/docode/packages/runtime"
+	"github.com/tscolari/docode/config"
+	"github.com/tscolari/docode/runtime"
 )
 
 type Runner struct {
