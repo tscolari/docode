@@ -1,4 +1,4 @@
-package docodeconfig_test
+package config_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestDocodeconfig(t *testing.T) {
+func TestConfig(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Docodeconfig Suite")
+	RunSpecs(t, "Config Suite")
 }

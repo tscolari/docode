@@ -1,25 +1,25 @@
 package docode
 
 import (
-	"github.com/tscolari/docode/packages/docodeconfig"
+	"github.com/tscolari/docode/packages/config"
 	"github.com/tscolari/docode/packages/runtime"
 )
 
 type Runner struct {
-	config docodeconfig.Configuration
+	config config.Configuration
 	docker runtime.Wrapper
 }
 
-func NewWithWrapper(config docodeconfig.Configuration, docker runtime.Wrapper) *Runner {
+func NewWithWrapper(config config.Configuration, docker runtime.Wrapper) *Runner {
 	return &Runner{
 		config: config,
 		docker: docker,
 	}
 }
 
-func New(config docodeconfig.Configuration) *Runner {
+func New(configuration config.Configuration) *Runner {
 	return &Runner{
-		config: config,
+		config: configuration,
 		docker: runtime.New(),
 	}
 }

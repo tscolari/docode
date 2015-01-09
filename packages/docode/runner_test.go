@@ -1,8 +1,8 @@
 package docode_test
 
 import (
+	"github.com/tscolari/docode/packages/config"
 	. "github.com/tscolari/docode/packages/docode"
-	"github.com/tscolari/docode/packages/docodeconfig"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -38,12 +38,12 @@ func (w *fakeDockerWrapper) Run(runList []string, portMappings map[int]int, imag
 var _ = Describe("runner", func() {
 	var wrapper *fakeDockerWrapper
 	var runner *Runner
-	var config docodeconfig.Configuration
+	var configuration config.Configuration
 
 	Describe(".Run", func() {
 		JustBeforeEach(func() {
 			wrapper = &fakeDockerWrapper{}
-			config = docodeconfig.Configuration{
+			configuration = config.Configuration{
 				ImageName: "busybox",
 				ImageTag:  "oldone",
 				DontPull:  true,
@@ -53,7 +53,7 @@ var _ = Describe("runner", func() {
 				MountSets: map[string]string{"/home": "/other_home", "/tmp": "/trash"},
 			}
 
-			runner = NewWithWrapper(config, wrapper)
+			runner = NewWithWrapper(configuration, wrapper)
 		})
 
 		It("sets correctly the docker image", func() {
@@ -93,8 +93,8 @@ var _ = Describe("runner", func() {
 
 		Context("when dont_pull is not set or not present", func() {
 			It("pulls the image if dont_pull false", func() {
-				config.DontPull = false
-				runner = NewWithWrapper(config, wrapper)
+				configuration.DontPull = false
+				runner = NewWithWrapper(configuration, wrapper)
 				runner.Run()
 				Expect(wrapper.pulled).To(Equal(true))
 			})

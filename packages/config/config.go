@@ -1,4 +1,4 @@
-package docodeconfig
+package config
 
 import (
 	"fmt"

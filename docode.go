@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/tscolari/docode/packages/config"
 	"github.com/tscolari/docode/packages/docode"
-	"github.com/tscolari/docode/packages/docodeconfig"
 
 	"flag"
 )
@@ -13,17 +13,17 @@ func main() {
 
 	flag.Parse()
 
-	fileConfig := docodeconfig.NewFromFile(*docodeFilePath)
-	config := docodeconfig.MergeConfigurations(argsConfig, fileConfig)
-	runner := docode.New(config)
+	fileConfig := config.NewFromFile(*docodeFilePath)
+	configuration := config.MergeConfigurations(argsConfig, fileConfig)
+	runner := docode.New(configuration)
 	err := runner.Run()
 	if err != nil {
 		panic("ERROR: " + err.Error())
 	}
 }
 
-func fetchConfigFromArgs() docodeconfig.ArgsConfiguration {
-	argsConfig := docodeconfig.ArgsConfiguration{}
+func fetchConfigFromArgs() config.ArgsConfiguration {
+	argsConfig := config.ArgsConfiguration{}
 
 	argsConfig.SSHKey = flag.String("k", "", "Ssh key path to use")
 	argsConfig.ImageName = flag.String("i", "", "Image name to use")

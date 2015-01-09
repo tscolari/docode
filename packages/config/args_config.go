@@ -1,4 +1,4 @@
-package docodeconfig
+package config
 
 type ArgsConfiguration struct {
 	ImageName *string

@@ -1,9 +1,9 @@
-package docodeconfig_test
+package config_test
 
 import (
 	. "io/ioutil"
 
-	"github.com/tscolari/docode/packages/docodeconfig"
+	"github.com/tscolari/docode/packages/config"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -44,10 +44,10 @@ run_list:
 		writeTemporaryDocodeFile(yamlContents)
 
 	Describe(".NewFromFile", func() {
-		var subject docodeconfig.Configuration
+		var subject config.Configuration
 
 		JustBeforeEach(func() {
-			subject = docodeconfig.NewFromFile(sampleDocodeFile)
+			subject = config.NewFromFile(sampleDocodeFile)
 		})
 
 		It("correctly maps the `image_name`", func() {
@@ -76,15 +76,15 @@ run_list:
 	})
 
 	Describe("MergeConfigurations", func() {
-		var configA docodeconfig.ArgsConfiguration
-		var configB docodeconfig.Configuration
-		var mergedConfig docodeconfig.Configuration
+		var configA config.ArgsConfiguration
+		var configB config.Configuration
+		var mergedConfig config.Configuration
 
 		BeforeEach(func() {
 			imageName := "imageA"
 			SSHKey := "/id_rsa"
 			imageTag := ""
-			configA = docodeconfig.ArgsConfiguration{
+			configA = config.ArgsConfiguration{
 				ImageName: &imageName,
 				ImageTag:  &imageTag,
 				SSHKey:    &SSHKey,
@@ -93,7 +93,7 @@ run_list:
 				},
 			}
 
-			configB = docodeconfig.Configuration{
+			configB = config.Configuration{
 				ImageName: "imageB",
 				ImageTag:  "tagB",
 				Ports:     map[int]int{80: 90, 100: 100},
@@ -104,7 +104,7 @@ run_list:
 		})
 
 		JustBeforeEach(func() {
-			mergedConfig = docodeconfig.MergeConfigurations(configA, configB)
+			mergedConfig = config.MergeConfigurations(configA, configB)
 		})
 
 		Context("precedence", func() {
